@@ -1,99 +1,48 @@
-# Telegram Dashboard — Analytics & Insights
+# tg-ai-vibecoders-summary
 
-## Overview
-Next.js 15 App Router application that connects to an existing PostgreSQL database to visualize Telegram chat activity and deliver **mandatory AI-powered** insights via Google Gemini 2.5 Pro.
+Дашборд для анализа активности Telegram-чата вайбкодеров. Приложение читает существующую PostgreSQL-базу сообщений и строит краткие отчёты, метрики и AI-инсайты через OpenRouter.
 
-## Getting Started
-1. Ensure Node.js 18+ is installed.
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Configure environment variables in `.env` (see **Configuration**).
-4. Run the development server:
-   ```bash
-   npm run dev
-   ```
-5. Visit `http://localhost:3000` for the 24-hour dashboard, `http://localhost:3000/week` for 7-day analytics.
+## Что делает проект
 
-## Configuration
-**Required variables** (set in `.env`):
-- `DATABASE_URL` — PostgreSQL connection string pointing to the existing messages/users tables.
-- `OPENROUTER_API_KEY` — **Required** API key for OpenRouter AI service.
-- `OPENROUTER_MODEL` — **Required** Model identifier, e.g., `google/gemini-2.5-pro`.
-- `OPENROUTER_TIMEOUT_MS` — (optional) request timeout override in milliseconds (default: 20000).
+- Показывает активность Telegram-чата за 24 часа и за неделю.
+- Строит графики, таблицы, summary и AI-интерпретацию динамики.
+- Позволяет фильтровать аналитику по `chat_id`.
+- Использует Next.js App Router и API routes для данных/отчётов.
 
-⚠️ **Important**: AI features require valid OpenRouter credentials. The application will not generate insights without proper API configuration.
+## Статус
 
-## Scripts
-- `npm run dev` — start Next.js dev server.
-- `npm run build` — build production bundle.
-- `npm run start` — run production server.
-- `npm run lint` — lint via ESLint/Next.
+Это рабочий прототип аналитического интерфейса, не основной контент-канон. Открытая задача сейчас про перевод UI-компонентов на `shadcn/ui`.
 
-## AI Requirements
-This application **requires** AI functionality for insights generation:
-- All report generation depends on OpenRouter API
-- No fallback content is provided when AI is unavailable
-- Ensure stable internet connection and valid API quota
-- Monitor OpenRouter service status for optimal experience
+## Как запустить
 
-## Features
-- **Real-time Analytics**: PostgreSQL-powered metrics and time-series data
-- **AI-Powered Insights**: Mandatory Google Gemini 2.5 Pro analysis via OpenRouter
-- **Interactive Generation**: On-demand summary creation with loading states
-- **Multi-chat Support**: Filter analytics by specific Telegram chat_id
-- **Responsive Design**: Optimized for desktop and mobile viewing
-
-## Key Directories
-- `app/` — App Router pages & API routes.
-- `components/` — UI building blocks (cards, charts, AI insights).
-- `lib/` — Database queries, AI integration, report builder, utilities.
-
-## Development
 ```bash
-npm run lint
+npm install
+npm run dev
 ```
-Linting should pass without additional configuration.
 
-## 🔧 Refactoring Status
+Локально: `http://localhost:3000`.
 
-### 🟢 Overall Progress: 2/4 days completed (50%)
+## Переменные окружения
 
-### ✅ Day 1: AI Module - COMPLETED!
-**Goal:** Eliminate code duplication in AI generation functions
+Нужен `.env`:
 
-**Completed:**
-- ✅ Created 3 helper functions (`validateAIConfig`, `_parseAIResponse`, `_logOpenRouterCall`)
-- ✅ Created unified `generateReport()` function
-- ✅ Added deprecated wrappers for backward compatibility
-- ✅ Updated report.ts to use new function
-- ✅ **Saved ~586 lines of code**
+```bash
+DATABASE_URL=postgresql://...
+OPENROUTER_API_KEY=...
+OPENROUTER_MODEL=google/gemini-2.5-pro
+OPENROUTER_TIMEOUT_MS=20000
+```
 
-**Progress:** 100% 🎆
+AI-часть не работает без валидного OpenRouter ключа.
 
----
+## Структура
 
-### 🟡 Day 2: Telegram Module - PARTIALLY COMPLETED
-**Goal:** Eliminate duplication in formatters and schemas
+| Путь | Назначение |
+|---|---|
+| `app/` | Next.js pages и API routes |
+| `components/` | UI, карточки, графики, AI-блоки |
+| `lib/` | SQL-запросы, OpenRouter, сборка отчётов |
 
-**Completed:**
-- ✅ Created 6 Telegram formatting helpers
-- ✅ Simplified 3 formatters (573 → 474 lines)
-- ✅ Created 4 JSON schema helpers
-- ✅ Simplified 4 schemas
-- ✅ **Saved ~90 lines of code**
+## Для агента
 
-**Skipped:**
-- ⏭️ Prompts refactoring (minimal duplication, ~500 lines)
-
-**Progress:** 75% (2 of 3 tasks)
-
----
-
-### 🟠 Total Refactoring Stats
-- **Total saved:** ~676 lines of code
-- **Time spent:** ~9 hours
-- **Next up:** React components, API routes, Database queries
-
-See `docs/` for detailed refactoring plan, tasks, and logs.
+Перед UI-правками проверь текущий issue и существующие компоненты. Если задача про дизайн-систему, двигайся к `shadcn/ui` постепенно: сначала shared primitives, потом экраны.
