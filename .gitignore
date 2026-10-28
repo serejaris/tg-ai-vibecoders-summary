@@ -6,3 +6,4 @@ coverage
 package-lock.json
 .playwright-mcp
 .DS_Store
+.claude/settings.local.json
